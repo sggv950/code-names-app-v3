@@ -1,28 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import NewGame from '../components/NewGame'
 import JoinGame from '../components/JoinGame'
-import axios from 'axios'
-// import { BrowserRouter as Router, Route, Link } from "react-router-dom"
+import styled from 'styled-components'
+
+const CardContainer = styled.div`
+display: grid;
+margin: 200px 200px;
+grid-auto-flow: column;
+`
+
+const Card = styled.div`
+height: 30vh;
+width: 30vw;
+margin: auto 20px;
+`
+
 
 
 const Homepage = () => {
 
-    const [id, setId] = useState('');
-
-    useEffect(() => {
-        const getId = async () => {
-        const id = await (await axios.get('http://localhost:3000/game')).data.id
-        setId(id)
-        }
-        getId()
-    })
-
-    
   return (
     <div>
-        current id : {id}
+      <CardContainer>
+        <Card>
       <NewGame />
+      </Card>
+      <Card>
       <JoinGame />
+      </Card>
+      </CardContainer>
     </div>
   );
 }   
