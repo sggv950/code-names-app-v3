@@ -15,7 +15,7 @@ function App() {
     <div className="App">
     <NavBar />
       <header className="App-header">
-        <Route exact path="/homepage" render={() =><Homepage />} />
+        <Route exact path="/" render={() =><Homepage />} />
         <Route exact path="/game" render={() =><Game />} />
         <p>
         </p>
