@@ -1,8 +1,7 @@
-import React from "react";
-import { Button } from "./common/Button";
-import { Input } from "./common/Input";
-import { CardContent } from "./common/CardContent";
-
+import React from 'react';
+import { Button } from './common/Button';
+import { Input } from './common/Input';
+import { CardContent } from './common/CardContent';
 
 const JoinGame = () => {
   return (
