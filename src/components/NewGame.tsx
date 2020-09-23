@@ -3,10 +3,29 @@ import { Link } from "react-router-dom"
 import axios from 'axios'
 import styled from 'styled-components'
 
+const CardContent = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-flow: wrap;
+    border-radius: 5px;
+    box-shadow: 2px 2px 2px 2px #bbbaaf;
+`
+
 const Button = styled.button`
-font-family: sans-serif;
-border-radius: 5px;
-border: none;
+    position: relative;
+    background-color: #c8f1c8;
+    border-radius: 5px; 
+    border: none;
+    width: 100%;
+    height: 60px;
+    margin-top: 46px;
+`
+
+const Input = styled.input`
+border-radius: 3px;
+border-width: 1px;
+margin: 0 20px;
 `
 
 
@@ -22,17 +41,19 @@ const NewGame = () => {
 
 
   return (
-    <div>
-      <div>
+    <CardContent>
+          <h1>
+          Create New Game
+          </h1>
+          <div>
         <label htmlFor="">Name</label>
-        <input type="text" name="" id=""/>
+        <Input type="text" name="" id=""/>
       </div>
-      <Button onClick={getId}>Create New Game</Button>
+      <Button onClick={getId}>CREATE</Button>
       <div>
         {id && <Link to={`/game/${id}`}>Navigate to Page</Link>}
       </div>
-    </div>
-  );
+      </CardContent>  );
 }
 
 export default NewGame
