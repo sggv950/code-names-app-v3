@@ -21,6 +21,8 @@ const MiniKeyword = styled.div`
     width: 20px;
     height: 15px;
     line-height: 9px;
+    padding: 0;
+    cursor: pointer;
   }
 `;
 

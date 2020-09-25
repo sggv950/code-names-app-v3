@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import NewGame from '../components/NewGame';
 import JoinGame from '../components/JoinGame';
+import { Button } from '../components/common/Button';
 import AddKeywordsModal from '../components/AddKeywordsModal';
 import styled from 'styled-components';
 
@@ -17,10 +18,17 @@ const Card = styled.div`
 `;
 
 const Homepage = () => {
-  const showModal = true;
+  const [showModal, updateShowModal] = useState<boolean>(false);
+
+  const toggleModal = () => {
+    updateShowModal(!showModal);
+  };
+
+
   return (
     <div>
-      {showModal ? <AddKeywordsModal /> : null}
+      {showModal ? <AddKeywordsModal onClose={toggleModal} /> : null}
+      <Button onClick={toggleModal}>open modal</Button>
       <CardContainer>
         <Card>
           <NewGame />

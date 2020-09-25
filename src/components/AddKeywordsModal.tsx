@@ -1,6 +1,7 @@
 import React, {
   FormEvent,
   ReactElement,
+  SyntheticEvent,
   useEffect,
   useRef,
   useState,
@@ -12,6 +13,10 @@ import KeywordPreview from './KeywordPreview';
 type KeyWordsListState = string[];
 type KeywordsTextState = string;
 
+interface KeywordsModalProps {
+  onClose: () => void;
+}
+
 const Modal = styled.div`
   position: absolute;
   top: 0;
@@ -20,6 +25,18 @@ const Modal = styled.div`
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.85);
   z-index: 9999;
+`;
+
+const CloseModalButton = styled.button`
+  cursor: pointer;
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  padding: 0;
+  background: none;
+  border: none;
+  font-size: 24px;
+  outline: none;
 `;
 
 const Card = styled.div`
@@ -34,6 +51,10 @@ const Card = styled.div`
   border-radius: 3px;
   text-align: center;
   padding: 20px;
+
+  form button {
+    cursor: pointer;
+  }
 `;
 
 const KeyWordPreviewContainer = styled.div`
@@ -55,7 +76,7 @@ const InfoText = styled.p`
   margin-bottom: 20px;
 `;
 
-const AddKeywordsModal = () => {
+const AddKeywordsModal = ({ onClose }: KeywordsModalProps) => {
   const keywordInput = useRef<HTMLInputElement>(null);
   const [keyWordsList, updateKeywordsList] = useState<KeyWordsListState>([]);
 
@@ -89,6 +110,12 @@ const AddKeywordsModal = () => {
     updateKeywordsList(updatedKeywords);
   };
 
+  const handleClickClose = (e: SyntheticEvent) => {
+    e.preventDefault();
+    console.log(e.target);
+    onClose();
+  } 
+
   const onInputChange = (e: FormEvent) => {
     e.persist();
     updateKeywordText((e.target as HTMLInputElement).value);
@@ -102,6 +129,7 @@ const AddKeywordsModal = () => {
   return (
     <Modal>
       <Card>
+        <CloseModalButton onClick={handleClickClose}>&times;</CloseModalButton>
         <InfoText>Add 25 keywords for custom game.</InfoText>
         <form onSubmit={handleSubmit}>
           <Input
