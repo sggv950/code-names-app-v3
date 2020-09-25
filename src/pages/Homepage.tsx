@@ -17,7 +17,7 @@ const Card = styled.div`
 `;
 
 const Homepage = () => {
-  const showModal = false;
+  const showModal = true;
   return (
     <div>
       {showModal ? <AddKeywordsModal /> : null}
