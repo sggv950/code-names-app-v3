@@ -40,7 +40,6 @@ const CloseModalButton = styled.button`
 `;
 
 const Card = styled.div`
-  height: 30vh;
   width: 40vw;
   position: absolute;
   top: 50%;
@@ -52,8 +51,11 @@ const Card = styled.div`
   text-align: center;
   padding: 20px;
 
-  form button {
-    cursor: pointer;
+  form {
+    margin-bottom: 30px;
+    button {
+      cursor: pointer;
+    }
   }
 `;
 
@@ -65,6 +67,7 @@ const KeyWordPreviewContainer = styled.div`
   border: 1px solid #20303c;
   border-radius: 5px;
   margin-top: 20px;
+  margin-bottom: 50px;
 `;
 
 const InfoText = styled.p`
@@ -74,6 +77,15 @@ const InfoText = styled.p`
   letter-spacing: 2px;
   color: #20303c;
   margin-bottom: 20px;
+`;
+
+const WordCount = styled.div`
+  position: absolute;
+  bottom: 5px;
+  left: 10px;
+  font-size: 12px;
+  letter-spacing: 2px;
+  font-weight: bold;
 `;
 
 const AddKeywordsModal = ({ onClose }: KeywordsModalProps) => {
@@ -114,7 +126,7 @@ const AddKeywordsModal = ({ onClose }: KeywordsModalProps) => {
     e.preventDefault();
     console.log(e.target);
     onClose();
-  } 
+  };
 
   const onInputChange = (e: FormEvent) => {
     e.persist();
@@ -146,6 +158,7 @@ const AddKeywordsModal = ({ onClose }: KeywordsModalProps) => {
             )}
           </KeyWordPreviewContainer>
         )}
+        <WordCount>words: {keyWordsList.length}/25</WordCount>
       </Card>
     </Modal>
   );
