@@ -1,27 +1,26 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { Button } from './common/Button';
 import { Input } from './common/Input';
 import { CardContent } from './common/CardContent';
+import AddKeywordsModal from './AddKeywordsModal';
+
 
 const NewGame = () => {
-  const [id, setId] = useState<string>('');
+  const [showModal, updateShowModal] = useState<boolean>(false);
 
-  const getId = async () => {
-    const { id } = await (await axios.get('http://localhost:3000/game')).data;
-    setId(id);
+  const toggleModal = () => {
+    updateShowModal(!showModal);
   };
 
   return (
     <CardContent>
+      {showModal ? <AddKeywordsModal onClose={toggleModal} /> : null}
       <h1>Create New Game</h1>
       <div>
         <label htmlFor="">Name</label>
         <Input type="text" name="" id="" />
       </div>
-      <Button onClick={getId}>CREATE</Button>
-      <div>{id && <Link to={`/game/${id}`}>Navigate to Page</Link>}</div>
+      <Button onClick={toggleModal}>CREATE</Button>
     </CardContent>
   );
 };
