@@ -9,6 +9,8 @@ import React, {
 import styled from 'styled-components';
 import { Input } from './common/Input';
 import KeywordPreview from './KeywordPreview';
+import axios from 'axios';
+
 
 type KeyWordsListState = string[];
 type KeywordsTextState = string;
@@ -138,6 +140,11 @@ const AddKeywordsModal = ({ onClose }: KeywordsModalProps) => {
     addKeyword(keywordText);
   };
 
+  const getId = async () => {
+    const newGame = await (await axios.get('http://localhost:5000/api/creategame')).data
+    console.log(newGame)
+  };
+
   return (
     <Modal>
       <Card>
@@ -157,6 +164,9 @@ const AddKeywordsModal = ({ onClose }: KeywordsModalProps) => {
               renderKeywordPreview(keyword, idx),
             )}
           </KeyWordPreviewContainer>
+        )}  
+        {keyWordsList.length === 25 && (
+          <button>Submit</button>
         )}
         <WordCount>words: {keyWordsList.length}/25</WordCount>
       </Card>
