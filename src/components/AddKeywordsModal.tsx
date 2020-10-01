@@ -6,12 +6,11 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Input } from './common/Input';
 import KeywordPreview from './KeywordPreview';
-import axios from 'axios';
-
+import { createGame } from '../services/gameService';
 
 type KeyWordsListState = string[];
 type KeywordsTextState = string;
@@ -143,10 +142,16 @@ const AddKeywordsModal = ({ onClose }: KeywordsModalProps) => {
     addKeyword(keywordText);
   };
 
-  const createGameId = async () => {
-    const { gameId } = await (await axios.get('http://localhost:5000/api/creategame')).data.newGame
-    setGameId(gameId)
-    console.log(gameId)
+  const handleCreateNewGame = async () => {
+    let gameId;
+    if (keyWordsList.length === 25) {
+      gameId = await createGame(keyWordsList);
+    } else {
+      gameId = await createGame();
+    }
+    // setGameId(gameId);
+    console.log(gameId);
+    //PROGRAMATICLY ROUTE
   };
 
   return (
@@ -168,15 +173,15 @@ const AddKeywordsModal = ({ onClose }: KeywordsModalProps) => {
               renderKeywordPreview(keyword, idx),
             )}
           </KeyWordPreviewContainer>
-        )}  
-        OR
-        <div>
-        <Link to={`/game/${gameId}`}>Generate Keywords Randomly</Link>
+        )}
         {keyWordsList.length === 25 && (
           <Link to={`/game/${gameId}`}>
-          <button onClick={createGameId}>Submit</button>
+            <button onClick={handleCreateNewGame}>Submit</button>
           </Link>
         )}
+        OR
+        <div>
+          <Link to={`/game/${gameId}`}>Generate Keywords Randomly</Link>
         </div>
         <WordCount>words: {keyWordsList.length}/25</WordCount>
       </Card>
