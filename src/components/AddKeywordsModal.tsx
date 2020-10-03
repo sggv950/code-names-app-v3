@@ -10,7 +10,8 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { Input } from './common/Input';
 import KeywordPreview from './KeywordPreview';
-import { createGame } from '../services/gameService';
+import { createGame, getRandomKeywords } from '../services/gameService';
+import { removeArrayDuplicates } from '../services/utils';
 
 type KeyWordsListState = string[];
 type KeywordsTextState = string;
@@ -43,16 +44,16 @@ const CloseModalButton = styled.button`
 `;
 
 const Card = styled.div`
-  width: 40vw;
+  width: 600px;
   position: absolute;
-  top: 50%;
+  top: 30%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateX(-50%);
   box-shadow: 0px 1px 7px 0px rgba(0, 0, 0, 0.8);
   background-color: #fafafa;
   border-radius: 3px;
   text-align: center;
-  padding: 20px;
+  padding: 40px;
 
   form {
     margin-bottom: 30px;
@@ -60,6 +61,7 @@ const Card = styled.div`
       cursor: pointer;
     }
   }
+
 `;
 
 const KeyWordPreviewContainer = styled.div`
@@ -75,11 +77,17 @@ const KeyWordPreviewContainer = styled.div`
 
 const InfoText = styled.p`
   padding: 10px;
-  font-size: 16px;
-  line-height: 20px;
+  font-size: 14px;
+  line-height: 30px;
   letter-spacing: 2px;
   color: #20303c;
   margin-bottom: 20px;
+`;
+
+const GeneratorLink = styled.span`
+  cursor: pointer;
+  color: dodgerblue;
+  font-weight: 700;
 `;
 
 const WordCount = styled.div`
@@ -128,7 +136,6 @@ const AddKeywordsModal = ({ onClose }: KeywordsModalProps) => {
 
   const handleClickClose = (e: SyntheticEvent) => {
     e.preventDefault();
-    console.log(e.target);
     onClose();
   };
 
@@ -142,13 +149,21 @@ const AddKeywordsModal = ({ onClose }: KeywordsModalProps) => {
     addKeyword(keywordText);
   };
 
+  const handleGenerateKeywords = async () => {
+    const randomKeywords =
+      25 - keyWordsList.length
+        ? await getRandomKeywords(25 - keyWordsList.length)
+        : await getRandomKeywords(25);
+    const noDuplicatesKeywords = removeArrayDuplicates(randomKeywords);
+    let updatedKeywords;
+    if (keyWordsList.length < 25) updatedKeywords = [...keyWordsList, ...noDuplicatesKeywords];
+    else updatedKeywords = [...noDuplicatesKeywords];
+    updateKeywordsList(updatedKeywords);
+
+  };
+
   const handleCreateNewGame = async () => {
-    let gameId;
-    if (keyWordsList.length === 25) {
-      gameId = await createGame(keyWordsList);
-    } else {
-      gameId = await createGame();
-    }
+    const gameId = await createGame(keyWordsList);
     // setGameId(gameId);
     console.log(gameId);
     //PROGRAMATICLY ROUTE
@@ -158,7 +173,19 @@ const AddKeywordsModal = ({ onClose }: KeywordsModalProps) => {
     <Modal>
       <Card>
         <CloseModalButton onClick={handleClickClose}>&times;</CloseModalButton>
-        <InfoText>Add 25 keywords for custom game.</InfoText>
+        <InfoText>
+          Add 25 keywords for custom game.
+          <br />
+          AND / OR
+          <br />
+          <GeneratorLink onClick={handleGenerateKeywords}>
+            {25 - keyWordsList.length
+              ? `Generate ${25 - keyWordsList.length} `
+              : 'Replace All '}
+            Keywords Randomly
+          </GeneratorLink>
+        </InfoText>
+
         <form onSubmit={handleSubmit}>
           <Input
             value={keywordText}
@@ -179,10 +206,7 @@ const AddKeywordsModal = ({ onClose }: KeywordsModalProps) => {
             <button onClick={handleCreateNewGame}>Submit</button>
           </Link>
         )}
-        OR
-        <div>
-          <Link to={`/game/${gameId}`}>Generate Keywords Randomly</Link>
-        </div>
+
         <WordCount>words: {keyWordsList.length}/25</WordCount>
       </Card>
     </Modal>

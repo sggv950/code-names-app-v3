@@ -6,7 +6,7 @@ import AddKeywordsModal from './AddKeywordsModal';
 
 
 const NewGame = () => {
-  const [showModal, updateShowModal] = useState<boolean>(false);
+  const [showModal, updateShowModal] = useState<boolean>(true);
 
   const toggleModal = () => {
     updateShowModal(!showModal);
