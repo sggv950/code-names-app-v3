@@ -6,7 +6,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Link } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
 import styled from 'styled-components';
 import { Input } from './common/Input';
 import KeywordPreview from './KeywordPreview';
@@ -102,12 +102,15 @@ const WordCount = styled.div`
 const AddKeywordsModal = ({ onClose }: KeywordsModalProps) => {
   const keywordInput = useRef<HTMLInputElement>(null);
   const [keyWordsList, updateKeywordsList] = useState<KeyWordsListState>([]);
+  const history = useHistory();
 
+  
   useEffect(() => {
     updateKeywordText('');
     if (null !== keywordInput.current) keywordInput.current.focus();
   }, [keyWordsList]);
-
+  
+  console.log(keyWordsList)
   const [keywordText, updateKeywordText] = useState<KeywordsTextState>('');
   const [gameId, setGameId] = useState<GameIdState>('');
 
@@ -160,13 +163,14 @@ const AddKeywordsModal = ({ onClose }: KeywordsModalProps) => {
       updatedKeywords = [...keyWordsList, ...noDuplicatesKeywords];
     else updatedKeywords = [...noDuplicatesKeywords];
     updateKeywordsList(updatedKeywords);
+    console.log(updatedKeywords)
   };
 
   const handleCreateNewGame = async () => {
+    console.log(keyWordsList);
     const gameId = await createGame(keyWordsList);
     // setGameId(gameId);
-    console.log(gameId);
-    //PROGRAMATICLY ROUTE
+    history.push(`/${gameId}`)
   };
 
   return (
