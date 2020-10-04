@@ -145,8 +145,7 @@ const AddKeywordsModal = ({ onClose }: KeywordsModalProps) => {
 
   const createGameId = async () => {
     const { gameId } = await (await axios.get('http://localhost:5000/api/creategame')).data.newGame
-    setGameId(gameId)
-    console.log(gameId)
+    setGameId(gameId);
   };
 
   return (
