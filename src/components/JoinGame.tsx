@@ -11,7 +11,7 @@ const JoinGame = () => {
         <label>Game Id</label>
         <Input type="text" name="" id="" />
       </div>
-      <Button>JOIN</Button>
+      <Button w100 >JOIN</Button>
     </CardContent>
   );
 };

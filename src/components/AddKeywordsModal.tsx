@@ -12,6 +12,7 @@ import { Input } from './common/Input';
 import KeywordPreview from './KeywordPreview';
 import { createGame, getRandomKeywords } from '../services/gameService';
 import { removeArrayDuplicates } from '../services/utils';
+import { Button } from './common/Button';
 
 type KeyWordsListState = string[];
 type KeywordsTextState = string;
@@ -61,7 +62,6 @@ const Card = styled.div`
       cursor: pointer;
     }
   }
-
 `;
 
 const KeyWordPreviewContainer = styled.div`
@@ -156,10 +156,10 @@ const AddKeywordsModal = ({ onClose }: KeywordsModalProps) => {
         : await getRandomKeywords(25);
     const noDuplicatesKeywords = removeArrayDuplicates(randomKeywords);
     let updatedKeywords;
-    if (keyWordsList.length < 25) updatedKeywords = [...keyWordsList, ...noDuplicatesKeywords];
+    if (keyWordsList.length < 25)
+      updatedKeywords = [...keyWordsList, ...noDuplicatesKeywords];
     else updatedKeywords = [...noDuplicatesKeywords];
     updateKeywordsList(updatedKeywords);
-
   };
 
   const handleCreateNewGame = async () => {
@@ -174,7 +174,7 @@ const AddKeywordsModal = ({ onClose }: KeywordsModalProps) => {
       <Card>
         <CloseModalButton onClick={handleClickClose}>&times;</CloseModalButton>
         <InfoText>
-          Add 25 keywords for custom game.
+          Add keywords for custom game.
           <br />
           AND / OR
           <br />
@@ -191,8 +191,11 @@ const AddKeywordsModal = ({ onClose }: KeywordsModalProps) => {
             value={keywordText}
             onChange={onInputChange}
             ref={keywordInput}
+            disabled={keyWordsList.length === 25}
           />
-          <button type="submit">Add</button>
+          <button type="submit" disabled={keyWordsList.length === 25}>
+            Add
+          </button>
         </form>
         {!!keyWordsList.length && (
           <KeyWordPreviewContainer>
@@ -202,9 +205,7 @@ const AddKeywordsModal = ({ onClose }: KeywordsModalProps) => {
           </KeyWordPreviewContainer>
         )}
         {keyWordsList.length === 25 && (
-          <Link to={`/game/${gameId}`}>
-            <button onClick={handleCreateNewGame}>Submit</button>
-          </Link>
+          <Button onClick={handleCreateNewGame}>Submit</Button>
         )}
 
         <WordCount>words: {keyWordsList.length}/25</WordCount>

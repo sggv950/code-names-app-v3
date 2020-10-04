@@ -5,7 +5,7 @@ export function randomValsFromArray(arr: Array<any>, numOfVals: number) {
 
 export function removeArrayDuplicates(array: Array<any>): Array<any> {
   const uniqueArray = array.filter((item, pos, self) => {
-    return self.indexOf(item) == pos;
+    return self.indexOf(item) === pos;
   });
 
   return uniqueArray;

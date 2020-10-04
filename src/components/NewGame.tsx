@@ -6,7 +6,7 @@ import AddKeywordsModal from './AddKeywordsModal';
 
 
 const NewGame = () => {
-  const [showModal, updateShowModal] = useState<boolean>(true);
+  const [showModal, updateShowModal] = useState<boolean>(false);
 
   const toggleModal = () => {
     updateShowModal(!showModal);
@@ -20,7 +20,7 @@ const NewGame = () => {
         <label htmlFor="">Name</label>
         <Input type="text" name="" id="" />
       </div>
-      <Button onClick={toggleModal}>CREATE</Button>
+      <Button onClick={toggleModal} w100>CREATE</Button>
     </CardContent>
   );
 };
